@@ -22,7 +22,7 @@ class HashTable : public USet <Key, T> {
   public:
     Key k;
     T x;
-
+	int prime = 0;
     //If the slot in the hash table is totally empty, set this to true.
     bool isNull;
 
@@ -97,7 +97,7 @@ private:
 
 template <class Key, class T>
 HashTable<Key, T>::HashTable(){
-	//TODO
+	
 }
 
 template <class Key, class T>
@@ -136,12 +136,12 @@ bool HashTable<Key, T>::keyExists(Key k){
 
 template <class Key, class T>
 unsigned long HashTable<Key, T>::size(){
-	//TODO
-	return 0;
+	return NUM_HASH_PRIMES;
 }
 
 template <class Key, class T>
 void HashTable<Key, T>::grow(){
-	//TODO
+	prime++;
+	NUM_HASH_PRIMES = hashPrimes[prime]/2;
 }
 
