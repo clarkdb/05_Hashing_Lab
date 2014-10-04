@@ -97,7 +97,12 @@ private:
 
 template <class Key, class T>
 HashTable<Key, T>::HashTable(){
-	
+	T* backingArray = New T[hashPrimes[prime]];
+	backingArraySize = NUM_HASH_PRIMES;
+	numRemoved = 0;
+	for (unsigned int x = 0; x < backingArraySize; x++){
+		backingArray[x]->isNull = true;
+	}
 }
 
 template <class Key, class T>
@@ -118,7 +123,8 @@ void HashTable<Key, T>::add(Key k, T x){
 
 template <class Key, class T>
 void HashTable<Key, T>::remove(Key k){
-	//TODO
+	numRemoved++;
+	backingArray[find(k)]->isDel = true;
 }
 
 template <class Key, class T>
@@ -143,5 +149,10 @@ template <class Key, class T>
 void HashTable<Key, T>::grow(){
 	prime++;
 	NUM_HASH_PRIMES = hashPrimes[prime]/2;
+	T* backingArray = New T[hashPrimes[prime]];
+	backingArraySize = NUM_HASH_PRIMES;
+	for (unsigned int x = 0; x < hashPrimes[prime - 1] / 2; x++){
+		add(backingArray[x], backingArray[x]%backingArraySize);
+	}
 }
 
