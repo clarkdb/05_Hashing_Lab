@@ -71,7 +71,7 @@ private:
   unsigned long numItems; //Number of items in the hash table
 
   //Note: Ordinarily, these OUGHT to be private. In this case I have
-  // made them public for easy of testing.
+  // made them public for ease of testing.
  public:
   unsigned long numRemoved; //Number of slots that have been removed but not re-used. Those that have isDel == true
   unsigned long backingArraySize;
@@ -112,7 +112,12 @@ HashTable<Key, T>::~HashTable() {
 
 template <class Key, class T>
 unsigned long HashTable<Key, T>::calcIndex(Key k){
-	//TODO
+	if (backingArray[k]->isNull == true || backingArray[k]->isDel == true){
+		return numItems;
+	}
+	else if (backingArray[k]->isNull == false && backingArray[k]->isDel == false){
+		return k;
+	}
 	return numItems; //This indicates failure, since it is an impossible value
 }
 
@@ -136,7 +141,10 @@ T HashTable<Key, T>::find(Key k){
 
 template <class Key, class T>
 bool HashTable<Key, T>::keyExists(Key k){
-	//TODO
+		if (backingArray[]->isNull == true){
+			return false;
+		}
+		
 	return false;
 }
 
