@@ -107,7 +107,8 @@ HashTable<Key, T>::HashTable(){
 
 template <class Key, class T>
 HashTable<Key, T>::~HashTable() {
-	//TODO
+	delete backingArray[];
+	backingArray = NULL;
 }
 
 template <class Key, class T>
