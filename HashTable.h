@@ -124,7 +124,11 @@ unsigned long HashTable<Key, T>::calcIndex(Key k){
 
 template <class Key, class T>
 void HashTable<Key, T>::add(Key k, T x){
-	//TODO
+	HashRecord entry = new HashRecord;
+	entry->isNull = false;
+	backingArray[k % backingArraySize] = entry;
+	backingArray[k % backingArraySize]->T = x;
+	backingArray[k % backingArraySize]->Key = k;
 }
 
 template <class Key, class T>
@@ -135,7 +139,15 @@ void HashTable<Key, T>::remove(Key k){
 
 template <class Key, class T>
 T HashTable<Key, T>::find(Key k){
-	//TODO
+	for (unsigned int x = 0; x < backingArraySize; x++){
+		if (k == backingArray[x]->Key){
+			return x;
+		}
+		else if (backingArray[x]->isNull == true){
+			throw std::string("The key does not match any data!");
+		}
+	}
+	throw std::string("The key does not match any data!");
 	T dummy;
 	return dummy;
 }
