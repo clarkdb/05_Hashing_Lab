@@ -21,15 +21,15 @@ Questions
 
 #### 1. Which of the above requirements work, and which do not? For each requirement, write a brief response.
 
-1. TODO
-2. TODO
-3. TODO
-4. TODO
+1. KeyExists does not work and I do not believe find works, but size and remove should both work.
+2. add was very difficult to understand and I could not get the code to work.
+3. Grow should work fine.
+4. The destructor works and removes data along with the pointer to the data.
 
 #### 2. I decided to use two function (`keyExists` and `find`) to enable lookup of keys. Another option would have been to have `find` return a `T*`, which would be `NULL` if an item with matching key is not found. Which design do you think would be better? Explain your reasoning. You may notice that the designers of C++ made the same decision I did when they designed http://www.cplusplus.com/reference/unordered_map/unordered_map/
 
-TODO
+I think it is better to return the key rather than a T* because the user should not be using addresses rather than keywords to access their data, it would be more confusing and more difficult to deal with when accessing data. The table should be easy to use and implement and should not allow users to know what the T* is in case they misuse the information or are confused by it.
 
 #### 3. What is one question that confused you about this exercise, or one piece of advice you would share with students next semester?
 
-TODO
+It was very confusing to use this type of structure because it consists of an array of HashRecords if I am not mistaken and using an array of classes was quite difficult when implementing the find and keyExists methods especially. How are we supposed to use the HashRecord, are we using it as the data within an array and does the '->' operator have use in getting the key or data within an element of the array?
