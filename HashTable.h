@@ -142,7 +142,7 @@ void HashTable<Key, T>::add(Key k, T x){
 template <class Key, class T>
 void HashTable<Key, T>::remove(Key k){
 	numRemoved++;
-	backingArray[find(k)]->isDel = true;
+	backingArray[find(k)].isDel = true;
 }
 
 template <class Key, class T>
@@ -150,10 +150,10 @@ T HashTable<Key, T>::find(Key k){
 	if(backingArray[k%backingArraySize].k != k){
 
 	for (unsigned int x = 0; x < backingArraySize - k%backingArraySize; x++){
-		if (k == backingArray[x]->Key){
+		if (k == backingArray[x].Key){
 			return x;
 		}
-		else if (backingArray[x]->isNull == true){
+		else if (backingArray[x].isNull == true){
 			throw std::string("The key does not match any data!");
 		}
 		}
