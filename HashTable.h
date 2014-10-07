@@ -130,7 +130,7 @@ void HashTable<Key, T>::add(Key k, T x){
 	numItems++;
 	if(numItems + numRemoved >= backingArraySize){
 		grow();
-	} else if(backingArray[k%backingArray].isNull == false && backingArray[k%backingArray].isDel == false){
+	} else if(backingArray[k%backingArraySize].isNull == false && backingArray[k%backingArraySize].isDel == false){
 		
 	} else {
 	backingArray[k % backingArraySize].isNull = false;
