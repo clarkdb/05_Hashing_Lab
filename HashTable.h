@@ -22,7 +22,6 @@ class HashTable : public USet <Key, T> {
   public:
     Key k;
     T x;
-	int prime = 0;
     //If the slot in the hash table is totally empty, set this to true.
     bool isNull;
 
@@ -75,6 +74,7 @@ private:
  public:
   unsigned long numRemoved; //Number of slots that have been removed but not re-used. Those that have isDel == true
   unsigned long backingArraySize;
+  unsigned 	int prime;
 };
 
 
@@ -97,26 +97,29 @@ private:
 
 template <class Key, class T>
 HashTable<Key, T>::HashTable(){
+	prime = 0;
 	T* backingArray = New T[hashPrimes[prime]];
-	backingArraySize = NUM_HASH_PRIMES;
+	backingArraySize = numItems;
 	numRemoved = 0;
-	for (unsigned int x = 0; x < backingArraySize; x++){
-		backingArray[x]->isNull = true;
+	for (unsigned int x = 0; x < hashPrimes[prime]; x++){
+		backingArray[x].isNull = true;
 	}
 }
 
 template <class Key, class T>
 HashTable<Key, T>::~HashTable() {
-	delete backingArray[];
+	for (unsigned int x = 0; x < hashPrimes[prime]; x++){
+	delete backingArray[x];
+	}
 	backingArray = NULL;
 }
 
 template <class Key, class T>
 unsigned long HashTable<Key, T>::calcIndex(Key k){
-	if (backingArray[k]->isNull == true || backingArray[k]->isDel == true){
+	if (backingArray[k%backingArraySize].isNull == true || backingArray[k%backingArraySize].isDel == true){
 		return numItems;
 	}
-	else if (backingArray[k]->isNull == false && backingArray[k]->isDel == false){
+	else if (backingArray[k%backingArraySize].isNull == false && backingArray[k%backingArraySize].isDel == false){
 		return k;
 	}
 	return numItems; //This indicates failure, since it is an impossible value
@@ -124,11 +127,16 @@ unsigned long HashTable<Key, T>::calcIndex(Key k){
 
 template <class Key, class T>
 void HashTable<Key, T>::add(Key k, T x){
-	HashRecord entry = new HashRecord;
-	entry->isNull = false;
-	backingArray[k % backingArraySize] = entry;
-	backingArray[k % backingArraySize]->T = x;
-	backingArray[k % backingArraySize]->Key = k;
+	numItems++;
+	if(numItems + numRemoved >= backingArraySize){
+		grow();
+	} else if(backingArray[k%backingArray].isNull == false && backingArray[k%backingArray].isDel == false){
+		
+	} else {
+	backingArray[k % backingArraySize].isNull = false;
+	backingArray[k % backingArraySize].T = x;
+	backingArray[k % backingArraySize].Key = k;
+	}
 }
 
 template <class Key, class T>
@@ -139,31 +147,36 @@ void HashTable<Key, T>::remove(Key k){
 
 template <class Key, class T>
 T HashTable<Key, T>::find(Key k){
-	for (unsigned int x = 0; x < backingArraySize; x++){
+	if(backingArray[k%backingArraySize].k != k){
+
+	for (unsigned int x = 0; x < backingArraySize - k%backingArraySize; x++){
 		if (k == backingArray[x]->Key){
 			return x;
 		}
 		else if (backingArray[x]->isNull == true){
 			throw std::string("The key does not match any data!");
 		}
-	}
+		}
+	} else {
 	throw std::string("The key does not match any data!");
 	T dummy;
 	return dummy;
+	}
 }
 
 template <class Key, class T>
 bool HashTable<Key, T>::keyExists(Key k){
-		if (backingArray[]->isNull == true){
-			return false;
+		if (CalcIndex(k) == k){
+		return true;
 		}
 		
 	return false;
+		
 }
 
 template <class Key, class T>
 unsigned long HashTable<Key, T>::size(){
-	return NUM_HASH_PRIMES;
+	return numItems;
 }
 
 template <class Key, class T>
@@ -171,9 +184,9 @@ void HashTable<Key, T>::grow(){
 	prime++;
 	NUM_HASH_PRIMES = hashPrimes[prime]/2;
 	T* backingArray = New T[hashPrimes[prime]];
-	backingArraySize = NUM_HASH_PRIMES;
+	backingArraySize = numItems;
 	for (unsigned int x = 0; x < hashPrimes[prime - 1] / 2; x++){
-		add(backingArray[x], backingArray[x]%backingArraySize);
+		add(backingArray[x].Key, backingArray[x].T);
 	}
 }
 
