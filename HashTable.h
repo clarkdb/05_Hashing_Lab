@@ -95,6 +95,8 @@ private:
 // remove
 #include <string>
 
+
+/**
 template <class Key, class T>
 HashTable<Key, T>::HashTable(){
 	prime = 0;
@@ -106,24 +108,30 @@ HashTable<Key, T>::HashTable(){
 	}
 }
 
+
+
 template <class Key, class T>
 HashTable<Key, T>::~HashTable() {
-	for (unsigned int x = 0; x < hashPrimes[prime]; x++){
-	delete backingArray[x];
-	}
-	backingArray = NULL;
+	delete backingArray[];
 }
 
 template <class Key, class T>
 unsigned long HashTable<Key, T>::calcIndex(Key k){
-	if (backingArray[k%backingArraySize].isNull == true || backingArray[k%backingArraySize].isDel == true){
+	int index = hash(k)%backingArraySize;
+	if (backingArray[index].isNull == true){
 		return numItems;
 	}
-	else if (backingArray[k%backingArraySize].isNull == false && backingArray[k%backingArraySize].isDel == false){
-		return k;
+	else if (backingArray[index].isNull == false && backingArray[index].isDel == false){
+		if(index->Key == k){
+		return index;
+		}
 	}
 	return numItems; //This indicates failure, since it is an impossible value
 }
+
+**/
+
+/**
 
 template <class Key, class T>
 void HashTable<Key, T>::add(Key k, T x){
@@ -189,5 +197,7 @@ void HashTable<Key, T>::grow(){
 	for (unsigned int x = 0; x < hashPrimes[prime - 1] / 2; x++){
 		add(backingArray[x].Key, backingArray[x].T);
 	}
+
 }
 
+**/
